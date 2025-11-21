@@ -3,41 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>h4ck3rfirst</title>
+  <title>H4CK3R FIRST - Post</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="terminal">
-    <div class="prompt">h4ck3rfirst@darknet:~$ <span class="cursor">_</span></div>
-    <div class="output">
-      <div class="command">cat <span id="file-name"></span></div>
-      <div id="post-content" class="post-content loading">Decrypting...</div>
-    </div>
+  <div class="container">
+    <header>
+      <h1><a href="index.html">./h4ck3rfirst</a><span class="blink">_</span></h1>
+    </header>
+    <nav><a href="index.html">← Back to Posts</a></nav>
+    <article id="post-content" class="post">
+      <div class="loading">Loading post<span class="dots">...</span></div>
+    </article>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.0.7/lib/index.umd.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <script>
-    marked.use({ gfm: true, breaks: true });
-    hljs.highlightAll();
+    marked.use(markedHighlight({
+      highlight: (code, lang) => hljs.getLanguage(lang) ? hljs.highlight(code, {language: lang}).value : hljs.highlightAuto(code).value
+    }));
 
     const params = new URLSearchParams(location.search);
-    const file = params.get('p') || 'README.md';
-    document.getElementById('file-name').textContent = file;
+    const file = params.get('p') || 'posts/default.md'; // Fallback to first post if none
 
     fetch(file)
-      .then(r => r.ok ? r.text() : Promise.reject(new Error('File not found')))
+      .then(r => r.ok ? r.text() : Promise.reject())
       .then(md => {
         document.getElementById('post-content').innerHTML = marked.parse(md);
-        document.title = file.replace('.md', '');
+        document.title = "H4CK3R FIRST - " + (md.match(/^#\s+(.+)/)?.[1] || file.split('/').pop());
         hljs.highlightAll();
       })
-      .catch(err => {
-        document.getElementById('post-content').innerHTML = `<div class="error">cat: ${file}: No such file. <a href="index.html">← Back</a></div>`;
+      .catch(() => {
+        document.getElementById('post-content').innerHTML = `<h2>404 - Post Not Found</h2><p><code>${file}</code> missing. Add it to /posts/!</p><a href="index.html">← Back</a>`;
       });
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </body>
 </html>
