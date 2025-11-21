@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>H4CK3R FIRST - Post</title>
+  <title>H4CK3R FIRST</title>
   <link rel="stylesheet" href="style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
@@ -12,13 +12,9 @@
     <header>
       <h1><a href="index.html">./h4ck3rfirst</a><span class="blink">_</span></h1>
     </header>
-
-    <nav>
-      <a href="index.html">← Back to posts</a>
-    </nav>
-
-    <article id="post-content" class="post">
-      <div class="loading">Decrypting post<span class="dots">...</span></div>
+    <nav><a href="index.html">← Back</a></nav>
+    <article id="content" class="post">
+      <div class="loading">Loading post<span class="dots">...</span></div>
     </article>
   </div>
 
@@ -26,36 +22,24 @@
   <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.0.7/lib/index.umd.js"></script>
   <script>
     marked.use(markedHighlight({
-      highlight(code, lang) {
-        if (lang && hljs.getLanguage(lang)) {
-          return hljs.highlight(code, {language: lang}).value;
-        }
-        return hljs.highlightAuto(code).value;
-      }
+      highlight: (code, lang) => hljs.getLanguage(lang) ? hljs.highlight(code, {language: lang}).value : hljs.highlightAuto(code).value
     }));
 
-    const params = new URLSearchParams(location.search);
-    const file = params.get('p') || 'README.md';
-    document.title = "H4CK3R FIRST - " + file.split('/').pop();
+    const urlParams = new URLSearchParams(location.search);
+    let file = urlParams.get('p') || 'README.md';
 
     fetch(file)
-      .then(r => {
-        if (!r.ok) throw new Error("Not found");
-        return r.text();
-      })
+      .then(r => r.ok ? r.text() : Promise.reject())
       .then(md => {
-        document.getElementById('post-content').innerHTML = marked.parse(md);
+        document.getElementById('content').innerHTML = marked.parse(md);
+        document.title = "H4CK3R FIRST - " + (md.match(/^#\s+(.+)/)?.[1] || file);
+        hljs.highlightAll();
       })
-      .catch(err => {
-        document.getElementById('post-content').innerHTML = `
-          <h2>404 - Post Not Found</h2>
-          <p><code>${file}</code> doesn't exist yet.</p>
-          <a href="index.html">← Back</a>
-        `;
+      .catch(() => {
+        document.getElementById('content').innerHTML = `<h2>404</h2><p>File <code>${file}</code> not found.</p><a href="index.html">← Home</a>`;
       });
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
 </body>
 </html>

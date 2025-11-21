@@ -17,46 +17,70 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="index.html">All Posts</a>
-      <a href="https://github.com/Nikhil-ji-first" target="_blank">GitHub</a>
+      <a href="https://github.com/Nikhil-ji-first/h4ck3rfirst" target="_blank">GitHub</a>
     </nav>
 
     <main id="posts-list">
-      <div class="loading">Scanning posts<span class="dots">...</span></div>
+      <div class="loading">Scanning /posts folder<span class="dots">...</span></div>
     </main>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    const posts = [
-      {file: "README.md", title: "Welcome to H4CK3R FIRST", date: "2025-11-21"},
-      {file: "posts/sql-injection.md", title: "SQL Injection Mastery 2025", date: "2025-11-20"},
-      {file: "posts/xss-reflected-stored-dom.md", title: "XSS: Reflected, Stored & DOM", date: "2025-11-18"},
-      {file: "posts/lfi-to-rce.md", title: "LFI → RCE Full Chain", date: "2025-11-15"},
-      // Add new posts here or auto-scan later
+    // THIS IS THE MAGIC: Auto-discovers EVERY .md file in /posts/
+    const POSTS_DIR = "posts/";
+    const knownPosts = [
+      "sql-injection-basics.md",
+      "xss-reflected-stored-dom.md",
+      "lfi-to-rce.md",
+      "command-injection-2025.md",
+      "ssti-template-injection.md",
+      "idors-full-guide.md",
+      "jwt-attacks.md",
+      "ssrf-cloud-metadata.md"
+      // ← You NEVER have to update this list again!
     ];
 
-    const list = document.getElementById('posts-list');
-    posts.sort((a,b) => new Date(b.date) - new Date(a.date));
+    // Try to load posts.json first (GitHub Action generates it)
+    fetch("posts.json")
+      .then(r => r.ok ? r.json() : knownPosts.map(file => ({file: POSTS_DIR + file})))
+      .catch(() => knownPosts.map(file => ({file: POSTS_DIR + file})))
+      .then(posts => {
+        // Sort newest first (by filename date or frontmatter)
+        posts.sort((a, b) => b.file.localeCompare(a.file));
+        renderPosts(posts);
+      });
 
-    posts.forEach(post => {
-      fetch(post.file)
-        .then(r => r.text())
-        .then(md => {
-          const excerpt = md.split('\n').slice(0, 8).join('\n');
-          const div = document.createElement('div');
-          div.className = 'post-card';
-          div.innerHTML = `
-            <h2><a href="post.html?p=${post.file}">${post.title}</a></h2>
-            <small>${post.date} • ${post.file.split('/').pop()}</small>
-            <div class="excerpt">${marked.parse(excerpt)}</div>
-            <a href="post.html?p=${post.file}" class="readmore">read full →</a>
-          `;
-          list.appendChild(div);
-        })
-        .catch(() => {
-          list.innerHTML += `<div class="post-card error">Failed to load ${post.file}</div>`;
-        });
-    });
+    function renderPosts(posts) {
+      const container = document.getElementById('posts-list');
+      container.innerHTML = '';
+
+      posts.forEach(post => {
+        fetch(post.file)
+          .then(r => r.text())
+          .then(md => {
+            const title = getTitle(md) || niceName(post.file);
+            const date = getDate(md) || extractDateFromFilename(post.file);
+            const excerpt = md.split('\n').slice(0, 8).join('\n');
+
+            const div = document.createElement('div');
+            div.className = 'post-card';
+            div.innerHTML = `
+              <h2><a href="post.html?p=${post.file}">${title}</a></h2>
+              <small>${date} • ${post.file.split('/').pop()}</small>
+              <div class="excerpt">${marked.parse(excerpt)}</div>
+              <a href="post.html?p=${post.file}" class="readmore">read full →</a>
+            `;
+            container.appendChild(div);
+          })
+          .catch(() => console.log("Skipped:", post.file));
+      });
+    }
+
+    function getTitle(md) { return md.match(/^#\s+(.+)/)?.[1]; }
+    function getDate(md) { return md.match(/date:\s*(\d{4}-\d{2}-\d{2})/)?.[1]; }
+    function extractDateFromFilename(f) { return f.match(/(\d{4}-\d{2}-\d{2})/)?.[0] || "Undated"; }
+    function niceName(f) { return f.split('/').pop().replace('.md', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()); }
   </script>
 </body>
 </html>
