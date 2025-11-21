@@ -1,8 +1,15 @@
+---
+tags: [Network Sniffing, Wireshark, FowSniff, Enumeration, Linux]
+---
+
+Date: 1 October , 2025
+Category: VulnHub Machine
+
 # Fowsniff CTF Penetration Test Report
 ## Executive Summary
 - **Target:** Fowsniff CTF machine (Vulnub room)
 - **IP Address:** 10.201.121.215
-- **Date:** October , 2025
+-
 - **Tester:** Nikhil Vishwakarma(h4ck3rfirst)
 - **Scope:** Full enumeration and exploitation of exposed services on the target machine, including SSH (22/TCP), HTTP (80/TCP), POP3 (110/TCP), and IMAP (143/TCP). No privilege escalation beyond initial foothold required for room completion. But we will do
 

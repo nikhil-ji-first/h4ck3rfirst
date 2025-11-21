@@ -15,7 +15,7 @@
     <nav><a href="index.html">← Back to Posts</a></nav>
     <article id="post-content" class="post">
       <div class="loading">Loading post<span class="dots">...</span></div>
-      <div id="error-message" class="error" style="display:none;">Error loading post. Check console (F12) for details.</div>
+      <div id="error-message" class="error" style="display:none;"></div>
     </article>
   </div>
 
@@ -23,6 +23,7 @@
   <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.0.7/lib/index.umd.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script> <!-- For frontmatter -->
   <script>
     marked.use(markedHighlight({
       highlight: (code, lang) => hljs.getLanguage(lang) ? hljs.highlight(code, {language: lang}).value : hljs.highlightAuto(code).value
@@ -32,45 +33,52 @@
     const file = params.get('p') || 'posts/default.md';
     const contentEl = document.getElementById('post-content');
     const errorEl = document.getElementById('error-message');
+    const loadingEl = contentEl.querySelector('.loading');
 
-    console.log('Attempting to load file:', file); // Debug log
+    console.log('Loading file:', file);
 
-    // Fetch with retry + better error handling
-    function loadPost(attempt = 1) {
-      fetch(file)
-        .then(r => {
-          if (!r.ok) {
-            throw new Error(`HTTP ${r.status}: ${r.statusText} (File may not exist or path wrong)`);
-          }
-          return r.text();
-        })
-        .then(md => {
-          console.log('File loaded successfully:', file); // Debug
-          contentEl.innerHTML = marked.parse(md);
-          document.title = "H4CK3R FIRST - " + (md.match(/^#\s+(.+)/)?.[1] || file.split('/').pop().replace('.md', ''));
-          hljs.highlightAll();
-          contentEl.classList.remove('loading'); // Hide loading
-        })
-        .catch(err => {
-          console.error('Fetch error for', file, ':', err); // Log to console
-          if (attempt < 2) {
-            console.log('Retrying fetch...');
-            setTimeout(() => loadPost(attempt + 1), 1000); // Retry once after 1s
-            return;
-          }
-          contentEl.style.display = 'none';
-          errorEl.innerHTML = `
-            <h2>Failed to Load Post</h2>
-            <p><strong>File:</strong> <code>${file}</code></p>
-            <p><strong>Error:</strong> ${err.message}</p>
-            <p><em>Check: File exists in /posts/? Case-sensitive? Rebuild site?</em></p>
-            <a href="index.html">← Back to Posts</a>
-          `;
-          errorEl.style.display = 'block';
-        });
-    }
+    fetch(file)
+      .then(r => {
+        if (!r.ok) throw new Error(`File not found (HTTP ${r.status}). Check path/case.`);
+        return r.text();
+      })
+      .then(md => {
+        console.log('Raw MD length:', md.length); // Debug: Shows if empty
+        if (!md.trim() || md.trim() === '----------------------------------------------------------------------------------------------------') {
+          throw new Error('Post is empty! Add # Title and content to ' + file);
+        }
 
-    loadPost(); // Start loading
+        // Parse frontmatter for tags (optional)
+        let tags = [];
+        const frontmatterMatch = md.match(/^---\s*\n([\s\S]*?)\n---/);
+        if (frontmatterMatch) {
+          try {
+            const frontmatter = jsyaml.load(frontmatterMatch[1]);
+            tags = frontmatter.tags || [];
+          } catch (e) { console.warn('Frontmatter parse error:', e); }
+        }
+
+        // Render main content
+        const rendered = marked.parse(md);
+        contentEl.innerHTML = `
+          <div class="tags">${tags.map(tag => `<span class="tag" onclick="window.location.href='index.html?search=${tag}'">${tag}</span>`).join('')}</div>
+          <div class="post-body">${rendered}</div>
+        `;
+        document.title = "H4CK3R FIRST - " + (md.match(/^#\s+(.+)/)?.[1] || file.split('/').pop().replace('.md', ''));
+        hljs.highlightAll();
+        loadingEl.style.display = 'none';
+      })
+      .catch(err => {
+        console.error('Error:', err);
+        loadingEl.style.display = 'none';
+        errorEl.innerHTML = `
+          <h2>Post Load Failed</h2>
+          <p><code>${file}</code> - ${err.message}</p>
+          <p><em>Tip: Ensure file has content (e.g., # Title + body). Push & wait 1 min.</em></p>
+          <a href="index.html">← Back</a>
+        `;
+        errorEl.style.display = 'block';
+      });
   </script>
 </body>
 </html>
