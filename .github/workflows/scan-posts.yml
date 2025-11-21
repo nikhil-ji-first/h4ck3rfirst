@@ -6,91 +6,78 @@ on:
       - 'posts/**.md'
 
 permissions:
-  contents: write
+  contents: write-all
 
 jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # important for rebase
 
       - name: Generate posts.json with tags & categories
         run: |
           python3 - <<'PY'
-          import os
-          import json
-          import re
-          import datetime
+          import os, json, re, datetime
           try:
               import yaml
           except ImportError:
-              import subprocess
-              subprocess.check_call(["pip", "install", "pyyaml"])
+              import subprocess, sys
+              subprocess.check_call([sys.executable, "-m", "pip", "install", "pyyaml"])
               import yaml
 
           posts = []
           posts_dir = 'posts'
-
-          if not os.path.exists(posts_dir):
-              json.dump(posts, open('posts.json', 'w'), indent=2)
+          if not os.path.isdir(posts_dir):
+              json.dump([], open('posts.json','w'))
               exit()
 
           for f in sorted(os.listdir(posts_dir), reverse=True):
-              if not f.endswith('.md'):
-                  continue
+              if not f.endswith('.md'): continue
               path = f"{posts_dir}/{f}"
               try:
-                  content = open(path, 'r', encoding='utf-8').read()
+                  content = open(path, encoding='utf-8').read()
               except:
                   continue
 
-              # ——— Category from filename ———
               lower = f.lower()
               category = 'notes'
-              if any(x in lower for x in ['htb', 'hackthebox']):
-                  category = 'hackthebox'
-              elif any(x in lower for x in ['thm', 'tryhackme']):
-                  category = 'tryhackme'
-              elif 'vulnhub' in lower:
-                  category = 'vulnhub'
-              elif 'report' in lower:
-                  category = 'reports'
+              if any(x in lower for x in ['htb','hackthebox']): category = 'hackthebox'
+              elif any(x in lower for x in ['thm','tryhackme']): category = 'tryhackme'
+              elif 'vulnhub' in lower: category = 'vulnhub'
+              elif 'report' in lower: category = 'reports'
 
-              # ——— Tags from frontmatter ———
               tags = []
-              fm = re.search(r'^---\s*\n(.*?)\n---', content, re.S)
+              fm = re.search(r'^---\s*\n([\s\S]*?)\n---', content)
               if fm:
                   try:
                       data = yaml.safe_load(fm.group(1))
-                      raw_tags = data.get('tags', [])
-                      if isinstance(raw_tags, list):
-                          tags = [str(t).strip() for t in raw_tags]
-                  except:
-                      pass
+                      raw = data.get('tags', [])
+                      if isinstance(raw, list):
+                          tags = [str(t).strip() for t in raw]
+                  except: pass
 
-              # ——— Title & Date ———
-              title_match = re.search(r'^#\s+(.+)', content, re.M)
-              title = title_match.group(1).strip() if title_match else f.replace('.md','').replace('-',' ').title()
+              title = re.search(r'^#\s+(.+)', content, re.M)
+              title = title.group(1).strip() if title else f.rsplit('.',1)[0].replace('-',' ').title()
 
-              date_match = re.search(r'(\d{4}-\d{2}-\d{2})', f)
-              date = date_match.group(1) if date_match else datetime.date.today().isoformat()
+              date = re.search(r'(\d{4}-\d{2}-\d{2})', f)
+              date = date.group(1) if date else datetime.date.today().isoformat()
 
-              posts.append({
-                  "file": path,
-                  "title": title,
-                  "date": date,
-                  "category": category,
-                  "tags": tags
-              })
+              posts.append({"file":path,"title":title,"date":date,"category":category,"tags":tags})
 
-          json.dump(posts, open('posts.json', 'w'), indent=2)
+          json.dump(posts, open('posts.json','w'), indent=2)
           PY
 
       - name: Commit & push posts.json if changed
         run: |
           git config user.name "Auto Scanner Bot"
           git config user.email "bot@h4ck3rfirst"
+          git pull --rebase origin main
           git add posts.json
-          git diff --quiet --staged || (
-            git commit -m "Auto-update posts.json [skip ci]" && git push
-          )
+          if git diff --quiet --staged; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "Auto-update posts.json [skip ci]"
+          git push origin main
