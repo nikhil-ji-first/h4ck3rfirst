@@ -1,9 +1,13 @@
 ---
-tags: [Network Sniffing, Wireshark, FowSniff, Enumeration, Linux]
+tags: [Network Sniffing, Wireshark, Enumeration, Linux, VulnHub, Metasploit]
 ---
 
-Date: 1 October , 2025
-Category: VulnHub Machine
+# FowSniff VulnHub Walkthrough: Sniffing Your Way to Root
+
+**Date:** 2025-11-21  
+**Platform:** VulnHub  
+**Difficulty:** Intermediate  
+
 
 # Fowsniff CTF Penetration Test Report
 ## Executive Summary
