@@ -93,3 +93,22 @@ nav a:hover { text-decoration: underline; }
 @keyframes dots { 0%,20%{content:''} 40%{content:'.'} 60%{content:'..'} 80%,100%{content:'...'} }
 .blink { animation: blink 1s infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+
+body { background: #000; color: #00ff00; font-family: 'Roboto Mono', monospace; padding: 20px; }
+.terminal { max-width: 800px; margin: 0 auto; }
+.prompt { color: #00ff00; margin-bottom: 10px; }
+.cursor { animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.command { color: #00ff41; margin-bottom: 5px; }
+.output { white-space: pre-wrap; line-height: 1.4; }
+.loading { color: #ffaa00; }
+.dots::after { content: '...'; animation: dots 1.5s infinite; }
+@keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } }
+.post-entry { margin: 15px 0; padding: 10px; border-left: 2px solid #00ff00; }
+.post-entry a { color: #00ff00; text-decoration: none; }
+.post-entry a:hover { text-decoration: underline; }
+.date { color: #00cc00; font-size: 0.9em; }
+.excerpt { color: #00ff99; margin-top: 5px; }
+.post-content { color: #c9d1d9; background: #0d1117; padding: 15px; border: 1px solid #00ff00; margin-top: 10px; }
+.post-content pre { background: #161b22; padding: 10px; overflow-x: auto; }
+.error, .no-posts { color: #ff6b6b; }
