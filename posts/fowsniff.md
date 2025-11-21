@@ -1,5 +1,5 @@
 ---
-tags: [Network Sniffing, Wireshark, Enumeration, Linux, VulnHub, Metasploit]
+tags: [Nmap, Enumeration, Linux, VulnHub, Metasploit]
 ---
 
 # FowSniff VulnHub Walkthrough: Sniffing Your Way to Root
