@@ -1,10 +1,15 @@
 [
   {
     "file": "posts/test.md",
-    "title": "Test",
+    "title": "Test Post: Quick Pentest Checklist for 2025",
     "date": "2025-11-21",
     "category": "notes",
-    "tags": []
+    "tags": [
+      "Testing",
+      "Markdown",
+      "Pentest Notes",
+      "Beginner"
+    ]
   },
   {
     "file": "posts/sql-injection.md",
