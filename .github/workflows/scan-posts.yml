@@ -1,0 +1,49 @@
+# .github/workflows/scan-posts.yml
+name: Auto-Scan Posts
+
+on:
+  push:
+    paths:
+      - 'posts/**.md'   # Only trigger on .md changes
+
+permissions:
+  contents: write   # Only allows writing to this repo (minimum needed)
+  actions: read     # Default
+
+jobs:
+  generate-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref }}
+
+      - name: Generate posts.json (safe & simple)
+        run: |
+          python3 - <<'PY'
+          import os, json, re, datetime
+          posts = []
+          for f in sorted(os.listdir('posts'), reverse=True):
+              if not f.endswith('.md'): continue
+              path = f"posts/{f}"
+              content = open(path, encoding='utf-8').read()
+              
+              title = (re.search(r'^#\s+(.+)', content, re.M) or [None])[0] or f.replace('.md','').replace('-',' ').title()
+              date = re.search(r'(\d{4}-\d{2}-\d{2})', f)
+              date = date.group(1) if date else datetime.date.today().isoformat()
+              
+              posts.append({"file": path, "title": title, "date": date})
+          
+          json.dump(posts, open('posts.json', 'w'), indent=2)
+          print(f"Generated {len(posts)} posts")
+          PY
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "Post Scanner Bot"
+          git config user.email "bot@h4ck3rfirst"
+          git add posts.json
+          git diff --quiet --staged || (
+            git commit -m "Auto-update posts.json [skip ci]"
+            git push
+          )
