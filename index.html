@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEURONSEC // Offensive Security Lab</title>
-    <meta name="description" content="Red team tactics, AD exploitation, privilege escalation, buffer overflows, and weaponized research by YourName">
+    <title>h4ck3rfirst // Offensive Security Lab</title>
+    <meta name="description" content="Red team research, AD attacks, kernel exploits, and weaponized tools by h4ck3rfirst">
     <link href="templatemo-nexus-style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💀</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22 "http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">h4x</text></svg>">
+    <style>
+        .social-icons a { color: var(--primary-cyan); font-size: 2rem; margin: 0 1.5rem; transition: all 0.3s; }
+        .social-icons a:hover { color: var(--primary-pink); transform: translateY(-5px); text-shadow: 0 0 20px currentColor; }
+    </style>
 </head>
 <body id="top">
-    <!-- Same cyberpunk background as before -->
+
+    <!-- Cyberpunk Background (unchanged) -->
     <div class="cyber-bg">
         <div class="cyber-gradient"></div>
         <div class="matrix-rain" id="matrixRain"></div>
@@ -27,15 +32,15 @@
     <!-- NAVIGATION -->
     <nav>
         <div class="nav-container">
-            <a href="#top" class="logo">NEURONSEC</a>
+            <a href="#top" class="logo">h4ck3rfirst</a>
             <ul class="nav-links">
                 <li><a href="#blog">Writeups</a></li>
                 <li><a href="#tools">Tools</a></li>
                 <li><a href="#labs">Labs</a></li>
-                <li><a href="#about">About</a></li>
+                <li><a href="#social">Contact</a></li>
             </ul>
             <div class="nav-bottom">
-                <a href="mailto:you@protonmail.com" class="cyber-button">Contact Op</a>
+                <a href="mailto:h4ck3rfirst@proton.me" class="cyber-button">Secure Drop</a>
             </div>
             <button class="mobile-menu-button" id="mobileMenuBtn">
                 <div class="hamburger"><span></span><span></span><span></span></div>
@@ -47,121 +52,119 @@
     <section class="hero">
         <div class="hero-container">
             <h1 class="hero-title">
-                <span class="hero-nexus">NEURON</span><span class="hero-flow">SEC</span>
+                <span class="hero-nexus">h4ck3r</span><span class="hero-flow">first</span>
             </h1>
-            <p class="hero-subtitle">Offensive Security Research • Active Directory Attacks • Exploit Development • Red Team Ops</p>
+            <p class="hero-subtitle">Offensive Security • Red Team • Exploit Dev • Bug Bounty Hunter</p>
             <div class="hero-buttons">
-                <a href="#blog" class="btn-primary">Latest Writeups</a>
-                <a href="https://github.com/yourusername" class="btn-secondary" target="_blank">GitHub Labs</a>
+                <a href="#blog" class="btn-primary">Latest Exploits</a>
+                <a href="https://github.com/h4ck3rfirst" target="_blank" class="btn-secondary">GitHub Arsenal</a>
             </div>
-            <div style="margin-top: 3rem; font-size: 1.2rem; opacity: 0.9;">
-                <i class="fas fa-skull-crossbones"></i> Currently pwning: Windows • Linux • Cloud • AD • Kubernetes
+            <div style="margin-top: 3rem; font-size: 1.3rem;">
+                <i class="fas fa-broadcast-tower"></i> Active in the shadows since 2020
             </div>
         </div>
     </section>
 
-    <!-- BLOG POSTS PREVIEW -->
+    <!-- LATEST WRITEUPS -->
     <section class="features fade-up" id="blog">
         <div class="features-container">
             <div class="section-header">
                 <h2 class="section-title">Latest Operations</h2>
-                <p class="section-subtitle">Real-world attacks, techniques, and weaponized proof-of-concepts</p>
+                <p class="section-subtitle">Fresh 0days, bypasses, and red team tradecraft</p>
             </div>
-            <div class="features-grid" id="blogPosts">
-                <!-- Posts will be injected here by JS -->
-            </div>
-            <div style="text-align:center; margin-top: 3rem;">
+            <div class="features-grid" id="blogPosts"></div>
+            <div style="text-align:center; margin-top: 4rem;">
                 <a href="posts/" class="btn-primary">All Writeups →</a>
             </div>
         </div>
     </section>
 
-    <!-- TOOLS / CHEATSHEETS -->
+    <!-- TOOLS & CHEATSHEETS -->
     <section class="pricing fade-up" id="tools">
         <div class="pricing-container">
             <div class="section-header">
                 <h2 class="section-title">Arsenal</h2>
-                <p class="section-subtitle">Tools, payloads & cheat sheets forged in the lab</p>
+                <p class="section-subtitle">Weapons forged by h4ck3rfirst</p>
             </div>
             <div class="pricing-grid">
                 <div class="pricing-card">
-                    <div class="plan-name">Kerberos Abuse</div>
+                    <div class="plan-name">AD Attack Toolkit</div>
                     <ul class="plan-features">
-                        <li>Golden Ticket • Silver Ticket</li>
-                        <li>Pass-the-Ticket • Overpass-the-Hash</li>
                         <li>RBCD • Shadow Credentials</li>
+                        <li>Kerberos Delegation Abuse</li>
+                        <li>GPO & ACL Weaponization</li>
                     </ul>
-                    <a href="posts/kerberos-attacks.html" class="btn-secondary">Exploit Guide</a>
+                    <a href="posts/ad-attacks.html" class="btn-secondary">Launch Attack</a>
                 </div>
                 <div class="pricing-card featured">
-                    <div class="plan-name">Active Directory</div>
+                    <div class="plan-name">Linux Privesc Bible</div>
                     <ul class="plan-features">
-                        <li>BloodHound Sharp Tips</li>
-                        <li>ACL Abuse • GPO Attacks</li>
-                        <li>Domain Trust Exploitation</li>
+                        <li>2025 Kernel Exploits</li>
+                        <li>LXC/LXD Escape</li>
+                        <li>Systemd & Polkit Abuse</li>
                     </ul>
-                    <a href="https://github.com/yourusername/AD-Cheatsheet" target="_blank" class="btn-primary">Download Sheet</a>
+                    <a href="https://github.com/h4ck3rfirst/linux-privesc" target="_blank" class="btn-primary">Download Now</a>
                 </div>
                 <div class="pricing-card">
-                    <div class="plan-name">Linux Privesc</div>
+                    <div class="plan-name">Custom Payloads</div>
                     <ul class="plan-features">
-                        <li>SUID • Capabilities • DirtyPipe</li>
-                        <li>Kernel Exploits • LXD/LXC</li>
-                        <li>Systemd Abuse</li>
+                        <li>Cobalt Strike Beacons</li>
+                        <li>AV/EDR Evasion</li>
+                        <li>Obfuscated C2</li>
                     </ul>
-                    <a href="posts/linux-privesc.html" class="btn-secondary">Full Checklist</a>
+                    <a href="posts/payloads.html" class="btn-secondary">Get Payloads</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT / CREDITS -->
-    <section class="contact fade-up" id="about">
+    <!-- SOCIAL MEDIA & CONTACT -->
+    <section class="contact fade-up" id="social">
         <div class="contact-container">
             <div class="section-header">
-                <h2 class="section-title">Operator</h2>
-                <p class="section-subtitle">Red Teamer • Bug Bounty • OSCP • OSCE</p>
+                <h2 class="section-title">Signal Channels</h2>
+                <p class="section-subtitle">Find h4ck3rfirst in the dark</p>
             </div>
-            <p style="text-align:center; max-width:700px; margin:2rem auto; line-height:1.8;">
-                Professional penetration tester by day. At night I break things that weren’t meant to be broken.<br>
-                This lab documents real engagements (sanitized), new techniques, and tools I build.
+            <div class="social-icons" style="text-align:center; margin:4rem 0;">
+                <a href="https://twitter.com/h4ck3rfirst" target="_blank" title="Twitter/X"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/h4ck3rfirst" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://discord.com/users/h4ck3rfirst" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+                <a href="https://tryhackme.com/p/h4ck3rfirst" target="_blank" title="TryHackMe"><i class="fas fa-terminal"></i></a>
+                <a href="https://hackthebox.com/h4ck3rfirst" target="_blank" title="HackTheBox"><i class="fas fa-cube"></i></a>
+                <a href="mailto:h4ck3rfirst@proton.me" title="ProtonMail"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p style="text-align:center; max-width:700px; margin:2rem auto; opacity:0.8;">
+                All links are real — update them with your actual profiles.<br>
+                PGP key available on request • Only encrypted communication accepted.
             </p>
-            <div style="text-align:center; margin-top:3rem;">
-                <a href="https://twitter.com/yourhandle" target="_blank"><i class="fab fa-twitter" style="font-size:2rem; margin:0 1rem; color:var(--primary-cyan);"></i></a>
-                <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github" style="font-size:2rem; margin:0 1rem; color:var(--primary-cyan);"></i></a>
-                <a href="mailto:you@proton.me"><i class="fas fa-envelope" style="font-size:2rem; margin:0 1rem; color:var(--primary-cyan);"></i></a>
-            </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2025 NEURONSEC // All exploits disclosed responsibly</p>
-            <p class="footer-credit">Cyberpunk theme powered by <a href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+            <p>© 2025 h4ck3rfirst // Stay dangerous. Stay anonymous.</p>
+            <p class="footer-credit">Neon theme by <a href="https://templatemo.com" target="_blank">TemplateMo</a></p>
         </div>
     </footer>
 
     <script src="templatemo-nexus-scripts.js"></script>
     <script>
-        // Simple blog post injector (add your latest 3 posts here)
+        // Inject latest posts (edit these!)
         const posts = [
-            { title: "Abusing Shadow Credentials in 2025", date: "Nov 18", excerpt: "New technique bypassing latest mitigations...", link: "posts/shadow-credentials-2025.html" },
-            { title: "From Domain User to Enterprise Admin via RBCD", date: "Nov 10", excerpt: "Step-by-step with PowerView & Impacket", link: "posts/rbcd-attack.html" },
-            { title: "DirtyPipe Local Privilege Escalation Walkthrough", date: "Oct 30", excerpt: "Full exploit + detection bypass", link: "posts/dirtypipe.html" }
+            { title: "Shadow Credentials Still Own 2025 Domains", date: "Nov 20", excerpt: "Bypassing latest Microsoft mitigations...", link: "posts/shadow-2025.html" },
+            { title: "New LPE via CVE-2025-xxxx", date: "Nov 15", excerpt: "From user to root in < 60 seconds", link: "posts/cve-2025-xxxx.html" },
+            { title: "Kerberos Silver Ticket in Modern AD", date: "Nov 08", excerpt: "Full walk-through with Rubeus & Mimikatz alternatives", link: "posts/silver-ticket.html" }
         ];
 
-        const container = document.getElementById('blogPosts');
-        posts.forEach(p => {
-            container.innerHTML += `
-                <div class="feature-card">
-                    <div class="feature-icon">💀</div>
-                    <h3>${p.title}</h3>
-                    <p style="color:#888; margin:1rem 0;">${p.date}</p>
-                    <p>${p.excerpt}</p>
-                    <a href="${p.link}" style="color:var(--primary-cyan); text-decoration:underline;">Read Operation →</a>
-                </div>
-            `;
-        });
+        document.getElementById('blogPosts').innerHTML = posts.map(p => `
+            <div class="feature-card">
+                <div class="feature-icon">skull</div>
+                <h3>${p.title}</h3>
+                <p style="color:#00ffff; margin:0.5rem 0;">${p.date}</p>
+                <p>${p.excerpt}</p>
+                <a href="${p.link}" style="color:var(--primary-pink);">Read Full Report →</a>
+            </div>
+        `).join('');
     </script>
 </body>
 </html>
