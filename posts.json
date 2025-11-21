@@ -2,21 +2,36 @@
   {
     "file": "posts/test.md",
     "title": "Test",
-    "date": "2025-11-21"
+    "date": "2025-11-21",
+    "category": "notes",
+    "tags": []
   },
   {
     "file": "posts/sql-injection.md",
-    "title": "# SQL Injection in 2025 \u2013 Still #1 Vulnerability",
-    "date": "2025-11-21"
+    "title": "SQL Injection in 2025 \u2013 Still #1 Vulnerability",
+    "date": "2025-11-21",
+    "category": "notes",
+    "tags": []
   },
   {
     "file": "posts/network.md",
     "title": "Network",
-    "date": "2025-11-21"
+    "date": "2025-11-21",
+    "category": "notes",
+    "tags": []
   },
   {
     "file": "posts/fowsniff.md",
-    "title": "# Fowsniff CTF Penetration Test Report",
-    "date": "2025-11-21"
+    "title": "FowSniff VulnHub Walkthrough: Sniffing Your Way to Root",
+    "date": "2025-11-21",
+    "category": "notes",
+    "tags": [
+      "Network Sniffing",
+      "Wireshark",
+      "Enumeration",
+      "Linux",
+      "VulnHub",
+      "Metasploit"
+    ]
   }
 ]
