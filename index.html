@@ -6,22 +6,50 @@
     <title>h4ck3rfirst // Offensive Security Lab</title>
     <meta name="description" content="Red team research, AD attacks, kernel exploits, and weaponized tools by h4ck3rfirst">
     <link href="templatemo-nexus-style.css" rel="stylesheet">
+<<<<<<< HEAD
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>h4x</text></svg>">
+    <style>
+        /* Mobile Performance Overrides (inspired by dudenation's minimalism) */
+        @media (max-width: 768px) {
+            .matrix-rain, .particles, .data-streams, .grid-overlay, .scanlines, .noise-overlay { display: none !important; }
+            .cyber-gradient { animation-duration: 60s !important; filter: blur(20px) !important; } /* Slower, lighter blur */
+            .orb { filter: blur(40px) !important; opacity: 0.2 !important; animation-duration: 40s !important; }
+            body { background: linear-gradient(135deg, var(--darker-bg) 0%, #000 100%); } /* Static fallback gradient */
+        }
+        /* Desktop-only heavy effects */
+        @media (min-width: 769px) {
+            .cyber-bg { z-index: -1; } /* Ensure effects layer properly */
+        }
+        /* General perf: Reduce motion, optimize transforms */
+        * { will-change: transform; } /* Hint to browser for smoother anims */
+        .fade-up { transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); } /* Smoother easing */
+        .social-icons a { color: var(--primary-cyan); font-size: 1.8rem; margin: 0 1rem; transition: all 0.2s; }
+        .social-icons a:hover { color: var(--primary-pink); transform: translateY(-3px); text-shadow: 0 0 15px currentColor; }
+    </style>
+=======
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22 "http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">h4x</text></svg>">
     <style>
         .social-icons a { color: var(--primary-cyan); font-size: 2rem; margin: 0 1.5rem; transition: all 0.3s; }
         .social-icons a:hover { color: var(--primary-pink); transform: translateY(-5px); text-shadow: 0 0 20px currentColor; }
     </style>
+>>>>>>> c2d1711b6d6aa851d8c40678efeba84eb0267710
 </head>
 <body id="top">
+<<<<<<< HEAD
+
+    <!-- Simplified Background: Lighter on Mobile -->
+=======
 
     <!-- Cyberpunk Background (unchanged) -->
+>>>>>>> c2d1711b6d6aa851d8c40678efeba84eb0267710
     <div class="cyber-bg">
         <div class="cyber-gradient"></div>
-        <div class="matrix-rain" id="matrixRain"></div>
+        <div class="matrix-rain" id="matrixRain"></div> <!-- Disabled on mobile via CSS -->
     </div>
-    <div class="particles" id="particlesContainer"></div>
-    <div class="data-streams" id="dataStreams"></div>
+    <div class="particles" id="particlesContainer"></div> <!-- Reduced count below -->
+    <div class="data-streams" id="dataStreams"></div> <!-- Disabled on mobile -->
     <div class="orb orb1"></div>
     <div class="orb orb2"></div>
     <div class="orb orb3"></div>
@@ -29,7 +57,7 @@
     <div class="scanlines"></div>
     <div class="noise-overlay"></div>
 
-    <!-- NAVIGATION -->
+    <!-- NAVIGATION (Unchanged, but lighter) -->
     <nav>
         <div class="nav-container">
             <a href="#top" class="logo">h4ck3rfirst</a>
@@ -48,7 +76,7 @@
         </div>
     </nav>
 
-    <!-- HERO -->
+    <!-- HERO (Minimal like dudenation) -->
     <section class="hero">
         <div class="hero-container">
             <h1 class="hero-title">
@@ -59,8 +87,13 @@
                 <a href="#blog" class="btn-primary">Latest Exploits</a>
                 <a href="https://github.com/h4ck3rfirst" target="_blank" class="btn-secondary">GitHub Arsenal</a>
             </div>
+<<<<<<< HEAD
+            <div style="margin-top: 3rem; font-size: 1.2rem; opacity: 0.9;">
+                <i class="fas fa-broadcast-tower"></i> Active in the shadows since 2020
+=======
             <div style="margin-top: 3rem; font-size: 1.3rem;">
                 <i class="fas fa-broadcast-tower"></i> Active in the shadows since 2020
+>>>>>>> c2d1711b6d6aa851d8c40678efeba84eb0267710
             </div>
         </div>
     </section>
@@ -149,13 +182,81 @@
 
     <script src="templatemo-nexus-scripts.js"></script>
     <script>
+<<<<<<< HEAD
+        // Optimized JS: Detect mobile and reduce load
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        
+        // Lazy-load effects only on desktop
+        if (!isMobile) {
+            // Full effects
+            generateMatrixRain();
+            generateParticles();
+            generateDataStreams();
+        } else {
+            // Minimal: Just static gradient, no JS-generated elements
+            document.body.style.background = 'linear-gradient(135deg, var(--darker-bg) 0%, #000 100%)';
+        }
+
+        // Reduced particles on all devices (from 50 to 20)
+        function generateParticles() {
+            const particlesContainer = document.getElementById('particlesContainer');
+            const particleCount = isMobile ? 10 : 20; // 80% reduction on mobile
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 10}s`; // Shorter delays
+                particle.style.animationDuration = `${Math.random() * 30 + 20}s`; // Longer duration = less CPU
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Throttled mousemove (only desktop)
+        if (!isMobile) {
+            let mouseTimer;
+            document.addEventListener('mousemove', (e) => {
+                if (mouseTimer) return;
+                mouseTimer = setTimeout(() => {
+                    // Orb movement (reduced frequency)
+                    const orbs = document.querySelectorAll('.orb');
+                    orbs.forEach((orb, index) => {
+                        const speed = (index + 1) * 0.01; // Slower
+                        const x = (e.clientX - window.innerWidth / 2) * speed;
+                        const y = (e.clientY - window.innerHeight / 2) * speed;
+                        orb.style.transform = `translate(${x}px, ${y}px)`;
+                    });
+                    mouseTimer = null;
+                }, 50); // 20fps throttle vs 60fps
+            });
+        }
+
+        // Rest of your JS (blog injector, etc.)
+=======
         // Inject latest posts (edit these!)
+>>>>>>> c2d1711b6d6aa851d8c40678efeba84eb0267710
         const posts = [
             { title: "Shadow Credentials Still Own 2025 Domains", date: "Nov 20", excerpt: "Bypassing latest Microsoft mitigations...", link: "posts/shadow-2025.html" },
             { title: "New LPE via CVE-2025-xxxx", date: "Nov 15", excerpt: "From user to root in < 60 seconds", link: "posts/cve-2025-xxxx.html" },
             { title: "Kerberos Silver Ticket in Modern AD", date: "Nov 08", excerpt: "Full walk-through with Rubeus & Mimikatz alternatives", link: "posts/silver-ticket.html" }
         ];
 
+<<<<<<< HEAD
+        document.getElementById('blogPosts').innerHTML = posts.map(p => `
+            <div class="feature-card">
+                <div class="feature-icon">💀</div>
+                <h3>${p.title}</h3>
+                <p style="color:#00ffff; margin:0.5rem 0;">${p.date}</p>
+                <p>${p.excerpt}</p>
+                <a href="${p.link}" style="color:var(--primary-pink);">Read Full Report →</a>
+            </div>
+        `).join('');
+
+        // Load other functions only if not mobile
+        if (!isMobile) {
+            // Paste the rest of generateMatrixRain, generateDataStreams from original JS here if needed
+            // (They run only on desktop)
+        }
+=======
         document.getElementById('blogPosts').innerHTML = posts.map(p => `
             <div class="feature-card">
                 <div class="feature-icon">skull</div>
@@ -165,6 +266,7 @@
                 <a href="${p.link}" style="color:var(--primary-pink);">Read Full Report →</a>
             </div>
         `).join('');
+>>>>>>> c2d1711b6d6aa851d8c40678efeba84eb0267710
     </script>
 </body>
 </html>

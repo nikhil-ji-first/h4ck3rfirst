@@ -1,11 +1,15 @@
-/*
 
-TemplateMo 594 nexus flow
+// Mobile Detection & Perf Opts
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
-https://templatemo.com/tm-594-nexus-flow
+// Skip heavy init on mobile
+if (isMobile) {
+    // Disable scroll listeners, observers if too heavy
+    window.addEventListener = () => {}; // Stub heavy listeners
+    return; // Exit early
+}
 
-*/
-
+// Rest of your original JS...
 // JavaScript Document
 
 // Initialize mobile menu functionality
