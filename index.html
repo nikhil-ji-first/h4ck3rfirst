@@ -5,61 +5,143 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>H4CK3R FIRST - Nikhil</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   <div class="container">
     <header>
       <h1>./h4ck3rfirst<span class="blink">_</span></h1>
-      <p>Pentesting Notes • Write-ups • Tools • Chaos</p>
+      <div class="social">
+        <a href="https://hackthebox.com/home/users/profile/CHANGE_ME" target="_blank"><i class="fab fa-hack-the-box"></i> HTB</a>
+        <a href="https://tryhackme.com/p/CHANGE_ME" target="_blank"><i class="fas fa-shield-alt"></i> THM</a>
+        <a href="https://linkedin.com/in/CHANGE_ME" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        <a href="mailto:you@email.com"><i class="fas fa-envelope"></i> Mail</a>
+        <button id="theme-toggle"><i class="fas fa-moon"></i></button>
+      </div>
     </header>
 
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Search by title, tags, machine, vuln... (e.g. SQLi, HTB Sniper, RCE)">
+      <i class="fas fa-search"></i>
+    </div>
+
     <nav>
-      <a href="index.html">Home</a>
-      <a href="index.html">All Posts</a>
-      <a href="https://github.com/Nikhil-ji-first/h4ck3rfirst" target="_blank">GitHub</a>
+      <a href="#" data-cat="all" class="active">All</a>
+      <a href="#" data-cat="hackthebox">HackTheBox</a>
+      <a href="#" data-cat="tryhackme">TryHackMe</a>
+      <a href="#" data-cat="vulnhub">VulnHub</a>
+      <a href="#" data-cat="notes">Notes</a>
+      <a href="#" data-cat="reports">Reports</a>
     </nav>
 
     <main id="posts-list">
-      <div class="loading">Scanning /posts folder<span class="dots">...</span></div>
+      <div class="loading">Scanning vault<span class="dots">...</span></div>
     </main>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    // Load posts from posts.json (auto-generated) or fallback
-    const fallbackPosts = []; // Empty for now - Action will populate
+    // CHANGE THESE TO YOUR REAL LINKS
+    const profiles = {
+      htb: "https://www.hackthebox.com/home/users/profile/123456",
+      thm: "https://tryhackme.com/p/nikhilji",
+      linkedin: "https://linkedin.com/in/nikhil-ji",
+      email: "nikhil@proton.me"
+    };
+    document.querySelector('[href*="hackthebox"]').href = profiles.htb;
+    document.querySelector('[href*="tryhackme"]').href = profiles.thm;
+    document.querySelector('[href*="linkedin"]').href = profiles.linkedin;
+    document.querySelector('[href^="mailto"]').href = "mailto:" + profiles.email;
 
-    fetch("posts.json")
-      .then(r => r.ok ? r.json() : fallbackPosts)
-      .catch(() => fallbackPosts)
+    // Theme
+    const toggle = document.getElementById('theme-toggle');
+    if (localStorage.getItem('theme') === 'light') document.body.classList.add('light');
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      const isLight = document.body.classList.contains('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      toggle.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    });
+
+    let allPosts = [];
+
+    fetch("posts.json?" + Date.now())
+      .then(r => r.ok ? r.json() : [])
       .then(posts => {
-        const list = document.getElementById('posts-list');
-        if (posts.length === 0) {
-          list.innerHTML = '<div class="no-posts">No posts yet. Add .md files to /posts/ and trigger scan!</div>';
-          return;
-        }
-        list.innerHTML = '';
-        posts.sort((a, b) => new Date(b.date) - new Date(a.date)); // Newest first
-        posts.forEach(post => {
-          fetch(post.file)
-            .then(r => r.text())
-            .then(md => {
-              const title = post.title || (md.match(/^#\s+(.+)/)?.[1] || post.file.split('/').pop().replace('.md', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()));
-              const excerpt = md.split('\n').slice(0, 8).join('\n');
-              const div = document.createElement('div');
-              div.className = 'post-card';
-              div.innerHTML = `
-                <h2><a href="post.html?p=${post.file}">${title}</a></h2>
-                <small>${post.date} • ${post.file.split('/').pop()}</small>
-                <div class="excerpt">${marked.parse(excerpt)}</div>
-                <a href="post.html?p=${post.file}" class="readmore">read full →</a>
-              `;
-              list.appendChild(div);
-            })
-            .catch(e => console.error('Load error:', e));
+        allPosts = posts.map(p => ({
+          ...p,
+          tags: p.tags || [] // ensure tags exist
+        }));
+        allPosts.sort((a,b) => new Date(b.date) - new Date(a.date));
+        renderPosts(allPosts);
+      });
+
+    function renderPosts(postsToShow) {
+      const list = document.getElementById('posts-list');
+      list.innerHTML = postsToShow.length === 0 
+        ? '<div class="no-results">No posts found. Try another keyword.</div>'
+        : '';
+
+      postsToShow.forEach(p => {
+        fetch(p.file).then(r => r.text()).then(md => {
+          const div = document.createElement('div');
+          div.className = 'post-card';
+          div.dataset.cat = p.category || 'notes';
+
+          const title = p.title || md.match(/^#\s+(.+)/)?.[1] || p.file.split('/').pop().replace('.md','');
+          const excerpt = md.split('\n').slice(0,7).join('\n');
+
+          // Render tags
+          const tagHTML = p.tags.map(tag => 
+            `<span class="tag" onclick="searchTag('${tag}')">${tag}</span>`
+          ).join('');
+
+          div.innerHTML = `
+            <div class="cat-badge">${(p.category || 'notes').toUpperCase()}</div>
+            <h2><a href="post.html?p=${p.file}">${title}</a></h2>
+            <small>${p.date} • ${p.file.split('/').pop()}</small>
+            <div class="tags">${tagHTML}</div>
+            <div class="excerpt">${marked.parse(excerpt)}</div>
+            <a href="post.html?p=${p.file}" class="readmore">read full →</a>
+          `;
+          list.appendChild(div);
         });
       });
+    }
+
+    // Global search function
+    window.searchTag = function(tag) {
+      document.getElementById('search').value = tag;
+      filterPosts();
+    };
+
+    // Search + Filter
+    document.getElementById('search').addEventListener('input', filterPosts);
+    function filterPosts() {
+      const term = document.getElementById('search').value.toLowerCase().trim();
+      const filtered = allPosts.filter(p => {
+        if (!term) return true;
+        return (
+          (p.title || '').toLowerCase().includes(term) ||
+          p.file.toLowerCase().includes(term) ||
+          p.tags.some(t => t.toLowerCase().includes(term))
+        );
+      });
+      renderPosts(filtered);
+    }
+
+    // Category filter
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+        const cat = link.dataset.cat;
+        const filtered = cat === 'all' ? allPosts : allPosts.filter(p => (p.category || 'notes') === cat);
+        renderPosts(filtered);
+      });
+    });
   </script>
 </body>
 </html>
