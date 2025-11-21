@@ -3,73 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>h4ck3rfirst</title>
+    <title>h4ck3rfirst // blog</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>skull</text></svg>">
-    <meta name="description" content="h4ck3rfirst - Offensive Security | Red Team | Exploit Dev">
+    <meta name="description" content="h4ck3rfirst - Offensive Security Blog | AD Attacks | Kernel Exploits | Red Team">
 </head>
 <body>
     <div class="container">
         <div class="terminal">
             <div class="header">
-                <span class="title">h4ck3rfirst@grid:~$ whoami</span>
+                <div class="title">h4ck3rfirst@darknet:~$ blog</div>
                 <button id="themeToggle" class="toggle">Dark/Light</button>
             </div>
+
             <div class="output">
-                <p><span class="prompt">┌──(</span><span class="user">h4ck3rfirst</span><span class="at">@</span><span class="host">darknet</span><span class="prompt">)-[</span><span class="path">~</span><span class="prompt">]</span></p>
-                <p><span class="cmd">└─$</span> cat profile.txt</p>
+                <p><span class="prompt">┌──(</span><span class="user">h4ck3rfirst</span><span class="at">@</span><span class="host">darknet</span><span class="prompt">)-[~/blog]</span></p>
+                <p><span class="cmd">└─$</span> ls -la</p>
                 <br>
-                <p class="info">> Offensive Security Researcher</p>
-                <p class="info">> Active Directory | Kernel Exploits | Red Team</p>
-                <p class="info">> OSCP | OSWE | Bug Bounty Hunter</p>
-                <p class="info">> Currently breaking things that shouldn't break</p>
+
+                <div class="post-list">
+                    <p class="post">
+                        <a href="posts/shadow-2025.html">2025-11-20 │ Shadow Credentials Still Own Modern Domains</a>
+                    </p>
+                    <p class="post">
+                        <a href="posts/linux-lpe-2025.html">2025-11-15 │ CVE-2025-XXXX → Instant Root (DirtyPipe++ Successor)</a>
+                    </p>
+                    <p class="post">
+                        <a href="posts/kerberos-silver.html">2025-11-08 │ Silver Ticket Attacks in 2025 AD Environments</a>
+                    </p>
+                    <p class="post">
+                        <a href="posts/rbcd-attack.html">2025-10-30 │ Resource-Based Constrained Delegation Full Chain</a>
+                    </p>
+                    <p class="post">
+                        <a href="posts/bloodhound-tips.html">2025-10-20 │ BloodHound Sharp Tips They Don't Teach You</a>
+                    </p>
+                </div>
+
                 <br>
+                <p><span class="cmd">└─$</span> cat contact.txt</p>
                 <p class="links">
                     <a href="https://github.com/h4ck3rfirst" target="_blank">github</a> • 
                     <a href="https://twitter.com/h4ck3rfirst" target="_blank">twitter</a> • 
-                    <a href="https://tryhackme.com/p/h4ck3rfirst" target="_blank">tryhackme</a> • 
-                    <a href="https://hackthebox.com/profile/xxxxxx" target="_blank">htb</a> • 
-                    <a href="mailto:h4ck3rfirst@proton.me">proton</a>
+                    <a href="mailto:h4ck3rfirst@proton.me">proton</a> • 
+                    <a href="assets/pgp.txt" target="_blank">pgp</a>
                 </p>
                 <br>
-                <p class="pgp">PGP: <span id="pgp">6F4A 1B8E 9D2C 3F7A</span> 
-                    <span class="copy" onclick="copyPGP()">copy</span>
-                </p>
+                <p class="pgp">PGP: 6F4A 1B8E 9D2C 3F7A <span class="copy" onclick="copyPGP()">copy</span></p>
             </div>
             <div class="cursor"></div>
         </div>
-        <footer>© 2025 h4ck3rfirst // stay dangerous</footer>
+
+        <footer>© 2025 h4ck3rfirst // no corporate overlords • no analytics • pure static</footer>
     </div>
 
     <script>
-        // Dark/Light Mode Toggle
         const toggle = document.getElementById('themeToggle');
         const body = document.body;
-        const savedTheme = localStorage.getItem('theme');
-
-        if (savedTheme) {
-            body.classList.add(savedTheme);
-            toggle.textContent = savedTheme === 'light' ? 'Light' : 'Dark';
-        }
+        const saved = localStorage.getItem('theme');
+        if (saved) body.classList.add(saved);
 
         toggle.addEventListener('click', () => {
-            if (body.classList.contains('light')) {
-                body.classList.remove('light');
-                localStorage.setItem('theme', 'dark');
-                toggle.textContent = 'Dark';
-            } else {
-                body.classList.add('light');
-                localStorage.setItem('theme', 'light');
-                toggle.textContent = 'Light';
-            }
+            body.classList.toggle('light');
+            const isLight = body.classList.contains('light');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            toggle.textContent = isLight ? 'Light' : 'Dark';
         });
 
-        // Copy PGP
         function copyPGP() {
             navigator.clipboard.writeText('6F4A 1B8E 9D2C 3F7A');
-            const el = document.getElementById('pgp');
+            const el = document.querySelector('.copy');
             el.textContent = 'COPIED!';
-            setTimeout(() => el.textContent = '6F4A 1B8E 9D2C 3F7A', 1500);
+            setTimeout(() => el.textContent = 'copy', 1500);
         }
     </script>
 </body>

