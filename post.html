@@ -14,8 +14,9 @@
     </header>
     <nav><a href="index.html">← Back to Posts</a></nav>
     <article id="post-content" class="post">
-      <div class="loading">Loading post<span class="dots">...</span></div>
-      <div id="error-message" class="error" style="display:none;"></div>
+      <div id="loading" class="loading">Loading post<span class="dots">...</span></div>
+      <div id="error" class="error" style="display:none;"></div>
+      <div id="content" style="display:none;"></div>
     </article>
   </div>
 
@@ -23,7 +24,7 @@
   <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.0.7/lib/index.umd.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script> <!-- For frontmatter -->
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
   <script>
     marked.use(markedHighlight({
       highlight: (code, lang) => hljs.getLanguage(lang) ? hljs.highlight(code, {language: lang}).value : hljs.highlightAuto(code).value
@@ -31,50 +32,63 @@
 
     const params = new URLSearchParams(location.search);
     const file = params.get('p') || 'posts/default.md';
-    const contentEl = document.getElementById('post-content');
-    const errorEl = document.getElementById('error-message');
-    const loadingEl = contentEl.querySelector('.loading');
+    const loadingEl = document.getElementById('loading');
+    const errorEl = document.getElementById('error');
+    const contentEl = document.getElementById('content');
 
-    console.log('Loading file:', file);
+    console.log('Loading:', file);
 
     fetch(file)
       .then(r => {
-        if (!r.ok) throw new Error(`File not found (HTTP ${r.status}). Check path/case.`);
+        if (!r.ok) {
+          throw new Error(`404 - File not found on site. Check: Exists in /posts/? Case match? Re-push & wait 2 min. Raw test: ${file}`);
+        }
         return r.text();
       })
-      .then(md => {
-        console.log('Raw MD length:', md.length); // Debug: Shows if empty
-        if (!md.trim() || md.trim() === '----------------------------------------------------------------------------------------------------') {
-          throw new Error('Post is empty! Add # Title and content to ' + file);
+      .then(async md => {
+        console.log('MD Length:', md.length, 'Preview:', md.substring(0, 100));
+        if (!md.trim() || md.trim().startsWith('---') === false && md.length < 50) {  // Detect empty/dashes
+          throw new Error('File is empty! Add # Title + content (see sample).');
         }
 
-        // Parse frontmatter for tags (optional)
+        // Parse frontmatter for tags
         let tags = [];
-        const frontmatterMatch = md.match(/^---\s*\n([\s\S]*?)\n---/);
-        if (frontmatterMatch) {
+        const fmMatch = md.match(/^---\s*\n([\s\S]*?)\n---/);
+        if (fmMatch) {
           try {
-            const frontmatter = jsyaml.load(frontmatterMatch[1]);
-            tags = frontmatter.tags || [];
-          } catch (e) { console.warn('Frontmatter parse error:', e); }
+            const fm = jsyaml.load(fmMatch[1]);
+            tags = fm.tags || [];
+          } catch (e) { console.warn('Tags parse fail:', e); }
         }
 
-        // Render main content
         const rendered = marked.parse(md);
         contentEl.innerHTML = `
-          <div class="tags">${tags.map(tag => `<span class="tag" onclick="window.location.href='index.html?search=${tag}'">${tag}</span>`).join('')}</div>
+          <div class="post-header">
+            <div class="tags">${tags.map(t => `<span class="tag" onclick="location.href='index.html?search=${encodeURIComponent(t)}'">${t}</span>`).join('')}</div>
+          </div>
           <div class="post-body">${rendered}</div>
         `;
-        document.title = "H4CK3R FIRST - " + (md.match(/^#\s+(.+)/)?.[1] || file.split('/').pop().replace('.md', ''));
+        document.title = `H4CK3R FIRST - ${md.match(/^#\s+(.+)/)?.[1] || file.split('/').pop().replace('.md', '')}`;
         hljs.highlightAll();
         loadingEl.style.display = 'none';
+        contentEl.style.display = 'block';
       })
       .catch(err => {
-        console.error('Error:', err);
+        console.error('Full Error:', err);
         loadingEl.style.display = 'none';
         errorEl.innerHTML = `
-          <h2>Post Load Failed</h2>
-          <p><code>${file}</code> - ${err.message}</p>
-          <p><em>Tip: Ensure file has content (e.g., # Title + body). Push & wait 1 min.</em></p>
+          <h2>🚫 Load Failed</h2>
+          <p><strong>File:</strong> <code>${file}</code></p>
+          <p><strong>Issue:</strong> ${err.message}</p>
+          <details>
+            <summary>Debug Steps</summary>
+            <ul>
+              <li>1. Add content to file (e.g., # Title + notes).</li>
+              <li>2. Commit/push → Wait 2 min for rebuild.</li>
+              <li>3. Test raw: <a href="${file}" target="_blank">View Raw</a> (should show MD, not 404).</li>
+              <li>4. Console (F12): Look for red errors & paste here.</li>
+            </ul>
+          </details>
           <a href="index.html">← Back</a>
         `;
         errorEl.style.display = 'block';
