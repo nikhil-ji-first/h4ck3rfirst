@@ -86,3 +86,10 @@ nav a:hover { text-decoration: underline; }
 @keyframes blink {
   50% { opacity: 0; }
 }
+.excerpt { margin: 1rem 0; opacity: 0.9; }
+.excerpt p { margin: 0.5rem 0; }
+.readmore { color: #00ff99 !important; font-weight: bold; }
+.dots::after { content: ''; animation: dots 1.5s infinite; }
+@keyframes dots { 0%,20%{content:''} 40%{content:'.'} 60%{content:'..'} 80%,100%{content:'...'} }
+.blink { animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0; } }
