@@ -6,7 +6,7 @@ on:
       - 'posts/**.md'
 
 permissions:
-  contents: write-all
+  contents: write   # ← this is the correct syntax (not write-all)
 
 jobs:
   scan:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # important for rebase
+          fetch-depth: 0   # needed for git pull --rebase
 
       - name: Generate posts.json with tags & categories
         run: |
@@ -41,6 +41,7 @@ jobs:
               except:
                   continue
 
+              # Category
               lower = f.lower()
               category = 'notes'
               if any(x in lower for x in ['htb','hackthebox']): category = 'hackthebox'
@@ -48,6 +49,7 @@ jobs:
               elif 'vulnhub' in lower: category = 'vulnhub'
               elif 'report' in lower: category = 'reports'
 
+              # Tags from frontmatter
               tags = []
               fm = re.search(r'^---\s*\n([\s\S]*?)\n---', content)
               if fm:
@@ -58,9 +60,9 @@ jobs:
                           tags = [str(t).strip() for t in raw]
                   except: pass
 
+              # Title & Date
               title = re.search(r'^#\s+(.+)', content, re.M)
               title = title.group(1).strip() if title else f.rsplit('.',1)[0].replace('-',' ').title()
-
               date = re.search(r'(\d{4}-\d{2}-\d{2})', f)
               date = date.group(1) if date else datetime.date.today().isoformat()
 
@@ -76,7 +78,7 @@ jobs:
           git pull --rebase origin main
           git add posts.json
           if git diff --quiet --staged; then
-            echo "No changes"
+            echo "No changes to posts.json"
             exit 0
           fi
           git commit -m "Auto-update posts.json [skip ci]"
