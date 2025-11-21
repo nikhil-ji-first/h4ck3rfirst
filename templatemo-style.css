@@ -1,49 +1,38 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
     background: #000;
     color: #0f0;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.4s ease;
-    overflow: hidden;
-    background: radial-gradient(circle at center, #001100, #000);
+    line-height: 1.6;
+    transition: background 0.4s, color 0.4s;
 }
 
 body.light {
-    background: #f0f0f0;
+    background: #fff;
     color: #000;
-    background: radial-gradient(circle at center, #ffffff, #e0e0e0);
 }
 
-.container {
-    width: 90%;
-    max-width: 800px;
-    text-align: center;
-}
+.container { width: 90%; max-width: 900px; }
 
 .terminal {
-    background: rgba(0, 20, 0, 0.9);
+    background: rgba(0,15,0,0.95);
     border: 2px solid #0f0;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 0 30px #0f0, inset 0 0 20px rgba(0,255,0,0.1);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 0 40px #0f0;
     position: relative;
-    margin-bottom: 30px;
+    backdrop-filter: blur(5px);
 }
 
 body.light .terminal {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255,255,255,0.97);
     border: 2px solid #000;
-    box-shadow: 0 0 30px rgba(0,0,0,0.3), inset 0 0 20px rgba(0,0,0,0.05);
-    color: #000;
+    box-shadow: 0 0 40px rgba(0,0,0,0.3);
 }
 
 .header {
@@ -51,122 +40,80 @@ body.light .terminal {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
 }
 
-.title {
-    color: #0f0;
-    text-shadow: 0 0 10px #0f0;
-}
-
-body.light .title {
-    color: #000;
-    text-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
+.title { color: #0f0; text-shadow: 0 0 10px; }
+body.light .title { color: #000; }
 
 .toggle {
     background: none;
     border: 1px solid #0f0;
     color: #0f0;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 8px 15px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.3s;
+    font-family: inherit;
 }
+body.light .toggle { border-color: #000; color: #000; }
+.toggle:hover { background: #0f0; color: #000; }
+body.light .toggle:hover { background: #000; color: #fff; }
 
-body.light .toggle {
-    border-color: #000;
-    color: #000;
-}
+.content { text-align: left; }
 
-.toggle:hover {
-    background: #0f0;
-    color: #000;
-}
+.line { margin: 8px 0; white-space: pre-wrap; }
+.empty { height: 10px; }
 
-body.light .toggle:hover {
-    background: #000;
-    color: #fff;
-}
-
-.output {
-    text-align: left;
-    line-height: 1.8;
-    font-size: 1.1rem;
-}
-
-.prompt, .cmd { color: #0f0; }
+.prompt { color: #0f0; }
 .user { color: #0ff; }
+.cyan { color: #0ff; }
 .host { color: #ff0; }
-.path { color: #f0f; }
 
-.info { color: #0f0; margin: 8px 0; }
-body.light .info { color: #000; }
-
-.links a {
+.posts a {
+    display: block;
     color: #0ff;
     text-decoration: none;
-    font-weight: bold;
+    margin: 12px 0;
+    padding-left: 20px;
     transition: all 0.3s;
 }
 
-.links a:hover {
+.posts a:hover {
     color: #ff0;
     text-shadow: 0 0 10px #ff0;
+    transform: translateX(10px);
 }
 
-body.light .links a {
-    color: #0066cc;
-}
+body.light .posts a { color: #0066cc; }
+body.light .posts a:hover { color: #ff6600; }
 
-body.light .links a:hover {
-    color: #ff6600;
-}
+.contact .link { color: #ff0; }
+body.light .contact .link { color: #0066cc; }
 
-.pgp {
-    margin-top: 20px;
+.footer {
+    margin-top: 30px;
     font-size: 0.9rem;
+    opacity: 0.8;
+    color: #0f0 !important;
 }
-
-.copy {
-    color: #ff0;
-    cursor: pointer;
-    margin-left: 10px;
-    font-weight: bold;
-}
+body.light .footer { color: #000 !important; }
 
 .cursor {
     display: inline-block;
     width: 10px;
-    height: 20px;
+    height: 22px;
     background: #0f0;
     animation: blink 1s infinite;
-    margin-left: 5px;
+    margin-left: 4px;
 }
-
-body.light .cursor {
-    background: #000;
-}
+body.light .cursor { background: #000; }
 
 @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+    0%,50% { opacity: 1; }
+    51%,100% { opacity: 0; }
 }
 
-footer {
-    color: #0f0;
-    font-size: 0.8rem;
-    opacity: 0.7;
-}
-
-body.light footer {
-    color: #000;
-}
-
-/* Mobile */
 @media (max-width: 600px) {
-    .output { font-size: 1rem; }
-    .terminal { padding: 15px; }
-    .header { flex-direction: column; gap: 10px; }
+    .terminal { padding: 20px; font-size: 0.95rem; }
+    .header { font-size: 1rem; flex-direction: column; gap: 15px; }
 }
