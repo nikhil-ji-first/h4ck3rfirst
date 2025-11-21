@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEURONSEC // Offensive Security Lab</title>
+    <meta name="description" content="Red team tactics, AD exploitation, privilege escalation, buffer overflows, and weaponized research by YourName">
+    <link href="templatemo-nexus-style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💀</text></svg>">
+</head>
+<body id="top">
+    <!-- Same cyberpunk background as before -->
+    <div class="cyber-bg">
+        <div class="cyber-gradient"></div>
+        <div class="matrix-rain" id="matrixRain"></div>
+    </div>
+    <div class="particles" id="particlesContainer"></div>
+    <div class="data-streams" id="dataStreams"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="grid-overlay"><div class="grid-lines"></div><div class="grid-glow"></div></div>
+    <div class="scanlines"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="nav-container">
+            <a href="#top" class="logo">NEURONSEC</a>
+            <ul class="nav-links">
+                <li><a href="#blog">Writeups</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#labs">Labs</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <div class="nav-bottom">
+                <a href="mailto:you@protonmail.com" class="cyber-button">Contact Op</a>
+            </div>
+            <button class="mobile-menu-button" id="mobileMenuBtn">
+                <div class="hamburger"><span></span><span></span><span></span></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1 class="hero-title">
+                <span class="hero-nexus">NEURON</span><span class="hero-flow">SEC</span>
+            </h1>
+            <p class="hero-subtitle">Offensive Security Research • Active Directory Attacks • Exploit Development • Red Team Ops</p>
+            <div class="hero-buttons">
+                <a href="#blog" class="btn-primary">Latest Writeups</a>
+                <a href="https://github.com/yourusername" class="btn-secondary" target="_blank">GitHub Labs</a>
+            </div>
+            <div style="margin-top: 3rem; font-size: 1.2rem; opacity: 0.9;">
+                <i class="fas fa-skull-crossbones"></i> Currently pwning: Windows • Linux • Cloud • AD • Kubernetes
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOG POSTS PREVIEW -->
+    <section class="features fade-up" id="blog">
+        <div class="features-container">
+            <div class="section-header">
+                <h2 class="section-title">Latest Operations</h2>
+                <p class="section-subtitle">Real-world attacks, techniques, and weaponized proof-of-concepts</p>
+            </div>
+            <div class="features-grid" id="blogPosts">
+                <!-- Posts will be injected here by JS -->
+            </div>
+            <div style="text-align:center; margin-top: 3rem;">
+                <a href="posts/" class="btn-primary">All Writeups →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOOLS / CHEATSHEETS -->
+    <section class="pricing fade-up" id="tools">
+        <div class="pricing-container">
+            <div class="section-header">
+                <h2 class="section-title">Arsenal</h2>
+                <p class="section-subtitle">Tools, payloads & cheat sheets forged in the lab</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="plan-name">Kerberos Abuse</div>
+                    <ul class="plan-features">
+                        <li>Golden Ticket • Silver Ticket</li>
+                        <li>Pass-the-Ticket • Overpass-the-Hash</li>
+                        <li>RBCD • Shadow Credentials</li>
+                    </ul>
+                    <a href="posts/kerberos-attacks.html" class="btn-secondary">Exploit Guide</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="plan-name">Active Directory</div>
+                    <ul class="plan-features">
+                        <li>BloodHound Sharp Tips</li>
+                        <li>ACL Abuse • GPO Attacks</li>
+                        <li>Domain Trust Exploitation</li>
+                    </ul>
+                    <a href="https://github.com/yourusername/AD-Cheatsheet" target="_blank" class="btn-primary">Download Sheet</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="plan-name">Linux Privesc</div>
+                    <ul class="plan-features">
+                        <li>SUID • Capabilities • DirtyPipe</li>
+                        <li>Kernel Exploits • LXD/LXC</li>
+                        <li>Systemd Abuse</li>
+                    </ul>
+                    <a href="posts/linux-privesc.html" class="btn-secondary">Full Checklist</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT / CREDITS -->
+    <section class="contact fade-up" id="about">
+        <div class="contact-container">
+            <div class="section-header">
+                <h2 class="section-title">Operator</h2>
+                <p class="section-subtitle">Red Teamer • Bug Bounty • OSCP • OSCE</p>
+            </div>
+            <p style="text-align:center; max-width:700px; margin:2rem auto; line-height:1.8;">
+                Professional penetration tester by day. At night I break things that weren’t meant to be broken.<br>
+                This lab documents real engagements (sanitized), new techniques, and tools I build.
+            </p>
+            <div style="text-align:center; margin-top:3rem;">
+                <a href="https://twitter.com/yourhandle" target="_blank"><i class="fab fa-twitter" style="font-size:2rem; margin:0 1rem; color:var(--primary-cyan);"></i></a>
+                <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github" style="font-size:2rem; margin:0 1rem; color:var(--primary-cyan);"></i></a>
+                <a href="mailto:you@proton.me"><i class="fas fa-envelope" style="font-size:2rem; margin:0 1rem; color:var(--primary-cyan);"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 NEURONSEC // All exploits disclosed responsibly</p>
+            <p class="footer-credit">Cyberpunk theme powered by <a href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+        </div>
+    </footer>
+
+    <script src="templatemo-nexus-scripts.js"></script>
+    <script>
+        // Simple blog post injector (add your latest 3 posts here)
+        const posts = [
+            { title: "Abusing Shadow Credentials in 2025", date: "Nov 18", excerpt: "New technique bypassing latest mitigations...", link: "posts/shadow-credentials-2025.html" },
+            { title: "From Domain User to Enterprise Admin via RBCD", date: "Nov 10", excerpt: "Step-by-step with PowerView & Impacket", link: "posts/rbcd-attack.html" },
+            { title: "DirtyPipe Local Privilege Escalation Walkthrough", date: "Oct 30", excerpt: "Full exploit + detection bypass", link: "posts/dirtypipe.html" }
+        ];
+
+        const container = document.getElementById('blogPosts');
+        posts.forEach(p => {
+            container.innerHTML += `
+                <div class="feature-card">
+                    <div class="feature-icon">💀</div>
+                    <h3>${p.title}</h3>
+                    <p style="color:#888; margin:1rem 0;">${p.date}</p>
+                    <p>${p.excerpt}</p>
+                    <a href="${p.link}" style="color:var(--primary-cyan); text-decoration:underline;">Read Operation →</a>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
