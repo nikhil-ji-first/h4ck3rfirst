@@ -1,198 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>h4ck3rfirst</title>
-    <meta name="description" content="h4ck3rfirst - Offensive Security Blog">
-    <style>
-        /* Ultra-Minimal CSS: Embedded for Single-File Magic */
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            background: #000;
-            color: #0f0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1.6;
-            transition: background 0.4s, color 0.4s;
-        }
-        body.light {
-            background: #fff;
-            color: #000;
-        }
-        .container { width: 90%; max-width: 900px; }
-        .terminal {
-            background: rgba(0,15,0,0.95);
-            border: 2px solid #0f0;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 0 40px #0f0;
-            position: relative;
-            backdrop-filter: blur(5px);
-        }
-        body.light .terminal {
-            background: rgba(255,255,255,0.97);
-            border: 2px solid #000;
-            box-shadow: 0 0 40px rgba(0,0,0,0.3);
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-        .title { color: #0f0; text-shadow: 0 0 10px #0f0; }
-        body.light .title { color: #000; text-shadow: 0 0 10px rgba(0,0,0,0.3); }
-        .toggle {
-            background: none;
-            border: 1px solid #0f0;
-            color: #0f0;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-        body.light .toggle { border-color: #000; color: #000; }
-        .toggle:hover { background: #0f0; color: #000; box-shadow: 0 0 10px #0f0; }
-        body.light .toggle:hover { background: #000; color: #fff; box-shadow: 0 0 10px #000; }
-        .content { text-align: left; }
-        .line { margin: 8px 0; white-space: pre-wrap; }
-        .empty { height: 10px; }
-        .prompt { color: #0f0; }
-        .user { color: #0ff; }
-        .cyan { color: #0ff; }
-        .host { color: #ff0; }
-        .posts a {
-            display: block;
-            color: #0ff;
-            text-decoration: none;
-            margin: 12px 0;
-            padding: 8px 20px;
-            border-left: 3px solid #0ff;
-            transition: all 0.3s;
-            background: rgba(0,255,255,0.05);
-        }
-        .posts a:hover {
-            color: #ff0;
-            text-shadow: 0 0 10px #ff0;
-            border-left-color: #ff0;
-            transform: translateX(5px);
-            box-shadow: 0 0 15px #0ff;
-        }
-        body.light .posts a { 
-            color: #0066cc; 
-            border-left-color: #0066cc; 
-            background: rgba(0,102,204,0.05);
-        }
-        body.light .posts a:hover { 
-            color: #ff6600; 
-            border-left-color: #ff6600; 
-            box-shadow: 0 0 15px #0066cc;
-        }
-        .contact .link { 
-            color: #ff0; 
-            cursor: pointer; 
-            text-decoration: underline;
-        }
-        body.light .contact .link { color: #0066cc; }
-        .contact .link:hover { text-shadow: 0 0 10px #ff0; }
-        body.light .contact .link:hover { text-shadow: 0 0 10px #0066cc; }
-        .footer {
-            margin-top: 30px;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            color: #0f0 !important;
-            text-align: center;
-        }
-        body.light .footer { color: #000 !important; }
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 22px;
-            background: #0f0;
-            animation: blink 1s infinite;
-            margin-left: 4px;
-        }
-        body.light .cursor { background: #000; }
-        @keyframes blink {
-            0%,50% { opacity: 1; }
-            51%,100% { opacity: 0; }
-        }
-        /* Mobile */
-        @media (max-width: 600px) {
-            .terminal { padding: 20px; font-size: 0.95rem; }
-            .header { font-size: 1rem; flex-direction: column; gap: 15px; }
-            .posts a { padding: 6px 15px; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>H4CK3R FIRST - Nikhil</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="terminal">
-            <div class="header">
-                <span class="title">h4ck3rfirst@darknet:~$</span>
-                <button id="toggle" class="toggle" onclick="toggleTheme()">Dark/Light</button>
-            </div>
+  <div class="container">
+    <header>
+      <h1>./h4ck3rfirst<span class="blink">_</span></h1>
+      <p>Pentesting Notes • Write-ups • Tools • Chaos</p>
+    </header>
 
-            <div class="content">
-                <div class="line">
-                    <span class="prompt">┌──(</span><span class="user">h4ck3rfirst</span><span class="cyan">@</span><span class="host">darknet</span><span class="prompt">)-[~/blog]</span>
-                </div>
-                <div class="line"><span class="prompt">└─$</span> ls -t</div>
-                <div class="line empty"></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html">All Posts</a>
+      <a href="https://github.com/Nikhil-ji-first" target="_blank">GitHub</a>
+    </nav>
 
-                <div class="posts">
-                    <a href="#shadow-2025">2025-11-20  Shadow Credentials Still Own Modern Domains</a>
-                    <a href="#linux-lpe">2025-11-15  CVE-2025-XXXX → Instant Root (DirtyPipe++ Successor)</a>
-                    <a href="#silver-ticket">2025-11-08  Silver Ticket Attacks in 2025 AD Environments</a>
-                    <a href="#rbcd">2025-10-30  Resource-Based Constrained Delegation Full Chain</a>
-                    <a href="#bloodhound">2025-10-20  BloodHound Sharp Tips They Don't Teach You</a>
-                </div>
+    <main id="posts-list">
+      <div class="loading">Scanning posts<span class="dots">...</span></div>
+    </main>
+  </div>
 
-                <div class="line empty"></div>
-                <div class="line"><span class="prompt">└─$</span> cat contact.txt</div>
-                <div class="line contact">
-                    [<span class="link" onclick="window.open('https://github.com/h4ck3rfirst')">GitHub</span>] github.com/h4ck3rfirst • 
-                    [<span class="link" onclick="window.open('https://twitter.com/h4ck3rfirst')">Twitter</span>] @h4ck3rfirst • 
-                    [<span class="link" onclick="window.open('mailto:h4ck3rfirst@proton.me')">Proton</span>] h4ck3rfirst@proton.me • 
-                    [<span class="link" onclick="copyPGP()">PGP</span>] 6F4A 1B8E 9D2C 3F7A
-                </div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const posts = [
+      {file: "README.md", title: "Welcome to H4CK3R FIRST", date: "2025-11-21"},
+      {file: "posts/sql-injection.md", title: "SQL Injection Mastery 2025", date: "2025-11-20"},
+      {file: "posts/xss-reflected-stored-dom.md", title: "XSS: Reflected, Stored & DOM", date: "2025-11-18"},
+      {file: "posts/lfi-to-rce.md", title: "LFI → RCE Full Chain", date: "2025-11-15"},
+      // Add new posts here or auto-scan later
+    ];
 
-                <div class="line footer">
-                    © 2025 h4ck3rfirst // pure static • no trackers • no cloud • no bullshit
-                </div>
-            </div>
+    const list = document.getElementById('posts-list');
+    posts.sort((a,b) => new Date(b.date) - new Date(a.date));
 
-            <div class="cursor"></div>
-        </div>
-    </div>
-
-    <script>
-        // Simple JS: Embedded for Single-File
-        function toggleTheme() {
-            document.body.classList.toggle('light');
-            const isLight = document.body.classList.contains('light');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            document.getElementById('toggle').textContent = isLight ? 'Light' : 'Dark';
-        }
-        // Load saved theme
-        const saved = localStorage.getItem('theme');
-        if (saved === 'light') {
-            document.body.classList.add('light');
-            document.getElementById('toggle').textContent = 'Light';
-        }
-        // Copy PGP
-        function copyPGP() {
-            navigator.clipboard.writeText('6F4A 1B8E 9D2C 3F7A');
-            const el = event.target;
-            el.textContent = 'COPIED!';
-            setTimeout(() => el.textContent = 'PGP', 1500);
-        }
-    </script>
+    posts.forEach(post => {
+      fetch(post.file)
+        .then(r => r.text())
+        .then(md => {
+          const excerpt = md.split('\n').slice(0, 8).join('\n');
+          const div = document.createElement('div');
+          div.className = 'post-card';
+          div.innerHTML = `
+            <h2><a href="post.html?p=${post.file}">${post.title}</a></h2>
+            <small>${post.date} • ${post.file.split('/').pop()}</small>
+            <div class="excerpt">${marked.parse(excerpt)}</div>
+            <a href="post.html?p=${post.file}" class="readmore">read full →</a>
+          `;
+          list.appendChild(div);
+        })
+        .catch(() => {
+          list.innerHTML += `<div class="post-card error">Failed to load ${post.file}</div>`;
+        });
+    });
+  </script>
 </body>
 </html>
