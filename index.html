@@ -11,74 +11,52 @@
   <div class="container">
     <header>
       <h1>./h4ck3rfirst<span class="blink">_</span></h1>
-      <p>Pentesting Notes • Write-ups • Tools • Chaos (Powered by Obsidian Vault)</p>
+      <p>Pentesting Notes • Write-ups • Tools • Chaos</p>
     </header>
 
     <nav>
       <a href="index.html">Home</a>
-      <a href="graph.html">Graph View</a> <!-- Bonus: Obsidian-style graph later -->
+      <a href="index.html">All Posts</a>
       <a href="https://github.com/Nikhil-ji-first" target="_blank">GitHub</a>
     </nav>
 
     <main id="posts-list">
-      <div class="loading">Scanning Obsidian vault<span class="dots">...</span></div>
+      <div class="loading">Scanning posts<span class="dots">...</span></div>
     </main>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    // Auto-scan /notes/ folder (simulate fetch for GitHub Pages; lists all .md files)
-    const notesDir = 'notes/';
-    const posts = []; // Will populate dynamically
+    const posts = [
+      {file: "README.md", title: "Welcome to H4CK3R FIRST", date: "2025-11-21"},
+      {file: "posts/sql-injection.md", title: "SQL Injection Mastery 2025", date: "2025-11-20"},
+      {file: "posts/xss-reflected-stored-dom.md", title: "XSS: Reflected, Stored & DOM", date: "2025-11-18"},
+      {file: "posts/lfi-to-rce.md", title: "LFI → RCE Full Chain", date: "2025-11-15"},
+      // Add new posts here or auto-scan later
+    ];
 
-    // Mock file list (in real: use GitHub API or hardcode/add as you push). For now, fetch index of files.
-    fetch(notesDir)
-      .then(() => {
-        // Placeholder: Add your notes here or use a JSON manifest later
-        // For auto: Generate a posts.json via GitHub Action (see Step 4)
-        const allPosts = [
-          {file: 'notes/welcome-to-h4ck3r.md', title: 'Welcome to H4CK3R FIRST', date: '2025-11-21', tags: ['intro']},
-          {file: 'notes/sql-injection.md', title: 'SQL Injection Mastery', date: '2025-11-20', tags: ['web', 'pentest']},
-          // Obsidian auto-adds: Just push new .md to /notes/
-        ];
-        posts.push(...allPosts);
-        renderPosts();
-      })
-      .catch(() => {
-        document.getElementById('posts-list').innerHTML = '<div class="error">No notes found. Add .md files to /notes/ via Obsidian!</div>';
-      });
+    const list = document.getElementById('posts-list');
+    posts.sort((a,b) => new Date(b.date) - new Date(a.date));
 
-    function renderPosts() {
-      const list = document.getElementById('posts-list');
-      posts.sort((a,b) => new Date(b.date) - new Date(a.date));
-      list.innerHTML = '';
-
-      posts.forEach(post => {
-        fetch(post.file)
-          .then(r => r.text())
-          .then(md => {
-            const excerpt = md.split('\n').slice(0, 10).join('\n'); // Longer excerpt for Obsidian notes
-            const div = document.createElement('div');
-            div.className = 'post-card';
-            div.innerHTML = `
-              <h2><a href="post.html?p=${post.file}">${post.title}</a></h2>
-              <small>${post.date} • Tags: ${post.tags.join(', ')}</small>
-              <div class="excerpt">${marked.parse(convertObsidianLinks(excerpt, posts))}</div>
-              <a href="post.html?p=${post.file}" class="readmore">read full →</a>
-            `;
-            list.appendChild(div);
-          });
-      });
-    }
-
-    // Basic Obsidian [[wiki-link]] converter
-    function convertObsidianLinks(text, posts) {
-      return text.replace(/\[\[([^\]|]+)\]\]/g, (match, link) => {
-        const cleanLink = link.trim().toLowerCase().replace(/ /g, '-');
-        const targetPost = posts.find(p => p.file.includes(cleanLink));
-        return targetPost ? `<a href="post.html?p=${targetPost.file}" style="color: #00ff99;">[[${link}]]</a>` : match;
-      });
-    }
+    posts.forEach(post => {
+      fetch(post.file)
+        .then(r => r.text())
+        .then(md => {
+          const excerpt = md.split('\n').slice(0, 8).join('\n');
+          const div = document.createElement('div');
+          div.className = 'post-card';
+          div.innerHTML = `
+            <h2><a href="post.html?p=${post.file}">${post.title}</a></h2>
+            <small>${post.date} • ${post.file.split('/').pop()}</small>
+            <div class="excerpt">${marked.parse(excerpt)}</div>
+            <a href="post.html?p=${post.file}" class="readmore">read full →</a>
+          `;
+          list.appendChild(div);
+        })
+        .catch(() => {
+          list.innerHTML += `<div class="post-card error">Failed to load ${post.file}</div>`;
+        });
+    });
   </script>
 </body>
 </html>

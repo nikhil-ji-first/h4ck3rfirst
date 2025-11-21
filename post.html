@@ -14,11 +14,11 @@
     </header>
 
     <nav>
-      <a href="index.html">← Back to Vault</a>
+      <a href="index.html">← Back to posts</a>
     </nav>
 
     <article id="post-content" class="post">
-      <div class="loading">Decrypting Obsidian note<span class="dots">...</span></div>
+      <div class="loading">Decrypting post<span class="dots">...</span></div>
     </article>
   </div>
 
@@ -35,7 +35,7 @@
     }));
 
     const params = new URLSearchParams(location.search);
-    const file = params.get('p') || 'notes/welcome-to-h4ck3r.md';
+    const file = params.get('p') || 'README.md';
     document.title = "H4CK3R FIRST - " + file.split('/').pop();
 
     fetch(file)
@@ -43,31 +43,16 @@
         if (!r.ok) throw new Error("Not found");
         return r.text();
       })
-      .then(async md => {
-        // Fetch all notes for link resolution
-        const allPostsResponse = await fetch('notes/'); // Placeholder; use posts.json or API
-        const allPosts = [ /* same as index */ ]; // Mirror from index.js
-        const content = marked.parse(convertObsidianLinks(md, allPosts));
-        document.getElementById('post-content').innerHTML = content;
-        hljs.highlightAll();
+      .then(md => {
+        document.getElementById('post-content').innerHTML = marked.parse(md);
       })
       .catch(err => {
         document.getElementById('post-content').innerHTML = `
-          <h2>404 - Note Not Found</h2>
-          <p><code>${file}</code> missing. Create it in Obsidian!</p>
+          <h2>404 - Post Not Found</h2>
+          <p><code>${file}</code> doesn't exist yet.</p>
           <a href="index.html">← Back</a>
         `;
       });
-
-    function convertObsidianLinks(text, posts) {
-      // Enhanced: Handle embeds ![[image.png]] and links
-      text = text.replace(/!\[\[([^\]]+)\]\]/g, '<img src="notes/attachments/$1" alt="$1" style="max-width:100%; border:1px solid #00ff00;">');
-      return text.replace(/\[\[([^\]|]+)\]\]/g, (match, link) => {
-        const cleanLink = link.trim().toLowerCase().replace(/ /g, '-');
-        const targetPost = posts.find(p => p.file.includes(cleanLink + '.md'));
-        return targetPost ? `<a href="post.html?p=${targetPost.file}" style="color: #00ff99; font-weight:bold;">[[${link}]]</a>` : match;
-      });
-    }
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
